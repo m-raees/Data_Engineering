@@ -1,0 +1,55 @@
+PUT /ip2locations
+{
+  "mappings": {
+    "properties": {
+      "ipranges": { "type": "ip_range" },
+      "isocode": { "type": "keyword" },
+      "countryname": { "type": "keyword" },
+	  "province": { "type": "keyword" },
+	  "city": { "type": "keyword" },
+	  "latitude": { "type": "float" },
+	  "longitude": { "type": "float" },
+	  "isp": { "type": "keyword" }
+    }
+  }
+}
+
+
+PUT /ip2locations/_doc/1?refresh=wait_for
+{
+  "ipranges": "1.0.0.0/24",
+  "isocode": "US",
+  "countryname": "United States of America",
+  "province": "California",
+  "city": "Los Angeles",
+  "latitude": "34.05223",
+  "longitude": "-118.24368",
+  
+}
+
+PUT /_enrich/policy/ip2locations-policy
+{
+  "range": {
+    "indices": "ip2locations",
+    "match_field": "ipranges",
+    "enrich_fields": ["latitude", "longitude"]
+  }
+}
+
+POST /_enrich/policy/ip2locations-policy/_execute
+
+PUT /_ingest/pipeline/ip2locations_lookup
+{
+  "processors" : [
+    {
+      "enrich" : {
+        "description": "Add 'latlng' data based on 'ip'",
+        "policy_name": "ip2locations-policy",
+        "field" : "ip",
+        "target_field": "loc_info",
+        "max_matches": "10"
+      }
+    }
+  ]
+}
+
