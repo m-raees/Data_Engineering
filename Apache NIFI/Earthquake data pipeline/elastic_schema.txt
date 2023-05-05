@@ -1,0 +1,28 @@
+PUT earthquake
+{
+  "mappings": {
+    "properties": {
+      "eventTimestamp": {
+        "type": "date"
+      },
+      "geoLocation": {
+        "type": "geo_point"
+      },
+      "depth": {
+        "type": "float"
+      },
+      "magnitude": {
+        "type": "float"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "place": {
+        "type": "keyword"
+      },
+      "type": {
+        "type": "keyword"
+      }
+    }
+  }
+}
