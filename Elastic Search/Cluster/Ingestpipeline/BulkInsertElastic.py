@@ -11,13 +11,13 @@ def isNaN(num):
 
 
 try:
-    hosts = ["172.16.81.1", "172.16.81.2", "172.16.81.3","172.16.81.4", "172.16.81.5", "172.16.81.6"]
+    hosts = ["192.168.81.1", "192.168.81.2", "192.168.81.3","192.168.81.4", "192.168.81.5", "192.168.81.6"]
     port = 9200
-    outputIndex = 'ip2loc'
+    outputIndex = 'index_name'
     esIengine_Insert = Elasticsearch(hosts=hosts, port=port)
     esIengine_Insert.info()
 
-    df = pd.read_csv('IP2LATLNG/IP-COUNTRY-REGION-CITY-LATITUDE-LONGITUDE-ISP.CSV', header=None)
+    df = pd.read_csv('Sample.CSV', header=None)
 
     counter = 0
     batchSize = 10000
